@@ -50,14 +50,17 @@ check the service instance name in **manifest.yml** and **WISE-PaaS**
 
 ![Imgur](https://i.imgur.com/VVMcYO8.png)
 
-## SSO setting(yo can ignore because it is a tool help design a login mechanism)
+### SSO setting(yo can ignore because it is a tool help design a login mechanism)
 
 open **`templates/index.html`**
 
     #change this **python-demo-jimmy** to your **application name**
     var ssoUrl = myUrl.replace('python-demo-jimmy', 'portal-sso');
 
-(you need to check the service name in `index.py` and WISE-PaaS)
+## Service name in Index.js
+
+we need to check out the service name in `index.py` & `WISE-PaaS` because the name maybe different
+
 
 ![Imgur](https://i.imgur.com/6777rmg.png)
 
