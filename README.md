@@ -61,8 +61,12 @@ var ssoUrl = myUrl.replace('python-demo-jimmy', 'portal-sso');
 
 ![https://github.com/WISE-PaaS/example-python-iohtub-mongodb/blob/master/source/code_image.PNG](https://github.com/WISE-PaaS/example-python-iohtub-mongodb/blob/master/source/code_image.PNG)
 
+## Push our application to WISE-PaaS
+
     #cf push {application name}
     cf push python-demo-mongodb
+
+## Get the application environment in WISE-PaaS
 
     #get the application environment
     cf env {application name} > env.json
