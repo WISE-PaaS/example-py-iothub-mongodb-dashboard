@@ -1,4 +1,4 @@
-###### Example-python-Iothub-MongoDB
+# Example-python-Iothub-MongoDB
 
 This is WIES-PaaS example-code include the mongodb and rabbitmq service。
 
