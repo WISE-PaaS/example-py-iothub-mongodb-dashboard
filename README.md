@@ -46,6 +46,8 @@ check the service instance name in **manifest.yml** and **WISE-PaaS**
 
 ![Imgur](https://i.imgur.com/2A2HDzz.png)
 
+**manifest.yml** can bind the service to our application in WISE-PaaS 
+
 ![Imgur](https://i.imgur.com/VVMcYO8.png)
 
 open **`templates/index.html`**
