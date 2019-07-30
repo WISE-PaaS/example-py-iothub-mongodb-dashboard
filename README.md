@@ -85,8 +85,7 @@ Edit the **publisher.py** `broker、port、username、password` you can find in 
 
 open two terminal
 
-#cf logs {application name}
-
+    #cf logs {application name}
     cf logs python-demo-mongodb
 
 .
