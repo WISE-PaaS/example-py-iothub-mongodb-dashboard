@@ -33,13 +33,15 @@ python3 package(those library you can try application in local):
 
 ![Imgur](https://i.imgur.com/JNJmxFy.png)
 
+##Login to WISE-PaaS
+
     #cf login -a api.{domain name} -u {WISE-PaaS/EnSaaS account} -p {WISE-PaaS/EnSaaS password}
     cf login -a api.wise-paas.io -u xxxxx@advantech.com -p xxxxxxxx
 
     #check the cf status
     cf target
 
-open the **`manifest.yml`** and editor the application name to yours，because the appication can't duplicate。
+open the **`manifest.yml`** and editor the application name to yours，because the appication can't duplicate in same domain。
 check the service instance name in **manifest.yml** and **WISE-PaaS**
 
 [Imgur](https://i.imgur.com/2A2HDzz.png)
