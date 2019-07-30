@@ -44,7 +44,7 @@ python3 package(those library you can try application in local):
 open the **`manifest.yml`** and editor the application name to yours，because the appication can't duplicate in same domain。
 check the service instance name in **manifest.yml** and **WISE-PaaS**
 
-[Imgur](https://i.imgur.com/2A2HDzz.png)
+![Imgur](https://i.imgur.com/2A2HDzz.png)
 
 ![Imgur](https://i.imgur.com/VVMcYO8.png)
 
