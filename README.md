@@ -77,28 +77,28 @@ If you don't want it，you can ignore it。
 The code can get the application environment in WISE-PaaS，so we need to check out the service name in `index.py` & `WISE-PaaS` because the name maybe different
     
 ```py    
-    IOTHUB_SERVICE_NAME = 'p-rabbitmq'
-    DB_SERVICE_NAME = 'mongodb-innoworks'
+IOTHUB_SERVICE_NAME = 'p-rabbitmq'
+DB_SERVICE_NAME = 'mongodb-innoworks'
 
-    # application environment
-    vcap_services = os.getenv('VCAP_SERVICES')
-    vcap_services_js = json.loads(vcap_services)
+# application environment
+vcap_services = os.getenv('VCAP_SERVICES')
+vcap_services_js = json.loads(vcap_services)
 
-    # mqtt
-    credentials = vcap_services_js[IOTHUB_SERVICE_NAME][0]['credentials']['protocols']
-    mqtt_credential = credentials['mqtt']
-    broker = mqtt_credential['host']
-    username = mqtt_credential['username'].strip()
-    password = mqtt_credential['password'].strip()
-    mqtt_port = mqtt_credential['port']
+# mqtt
+credentials = vcap_services_js[IOTHUB_SERVICE_NAME][0]['credentials']['protocols']
+mqtt_credential = credentials['mqtt']
+broker = mqtt_credential['host']
+username = mqtt_credential['username'].strip()
+password = mqtt_credential['password'].strip()
+mqtt_port = mqtt_credential['port']
 
 Connect to MongoDB use PyMongo，the `uri` get from application environment
 
-    # mongodb
-    uri = vcap_services_js[DB_SERVICE_NAME][0]['credentials']['uri']
-    app.config['MONGO_URI'] = uri
-    mongo = PyMongo(app)
-    collection = mongo.db.temps
+# mongodb
+uri = vcap_services_js[DB_SERVICE_NAME][0]['credentials']['uri']
+app.config['MONGO_URI'] = uri
+mongo = PyMongo(app)
+collection = mongo.db.temps
 ```
 
 ![Imgur](https://i.imgur.com/6777rmg.png)
@@ -106,34 +106,33 @@ Connect to MongoDB use PyMongo，the `uri` get from application environment
 This code can connect to the mqtt subscrobe the `/hello` topic，we use `on_message` save data and insert it to collection，because we want to use it on Dashboard，so our data need have `timestamp`， we use `datetime.datatime.now()` to get time。
 
 ```py
-    # mqtt
+# mqtt
+def on_connect(client, userdata, flags, rc):
+    print("Connected with result code "+str(rc))
+    # subscribe the /helo this topic
+    client.subscribe("/hello")
+    print('subscribe on /hello')
 
-    def on_connect(client, userdata, flags, rc):
-        print("Connected with result code "+str(rc))
-        # subscribe the /helo this topic
-        client.subscribe("/hello")
-        print('subscribe on /hello')
 
-
-    def on_message(client, userdata, msg):
-        print(msg.topic+','+msg.payload.decode())
+def on_message(client, userdata, msg):
+    print(msg.topic+','+msg.payload.decode())
     
-        ti =  datetime.datetime.now()
-        topic = msg.topic
-        data = msg.payload.decode()
-        temp_id = collection.insert({'date': ti, 'topic': topic, 'data': data})
-        new_temp = collection.find_one({'_id': temp_id})
-        output = {'date': new_temp['date'],
+    ti =  datetime.datetime.now()
+    topic = msg.topic
+    data = msg.payload.decode()
+    temp_id = collection.insert({'date': ti, 'topic': topic, 'data': data})
+    new_temp = collection.find_one({'_id': temp_id})
+    output = {'date': new_temp['date'],
                  'topic': new_temp['topic'], 'data': new_temp['data']}
 
-        print(output)
+    print(output)
 
-    client = mqtt.Client()
-    client.username_pw_set(username, password)
-    client.on_connect = on_connect
-    client.on_message = on_message
-    client.connect(broker, mqtt_port, 60)   
-    client.loop_start()
+client = mqtt.Client()
+client.username_pw_set(username, password)
+client.on_connect = on_connect
+client.on_message = on_message
+client.connect(broker, mqtt_port, 60)   
+client.loop_start()
 ```
 
 ## Push our application to WISE-PaaS
